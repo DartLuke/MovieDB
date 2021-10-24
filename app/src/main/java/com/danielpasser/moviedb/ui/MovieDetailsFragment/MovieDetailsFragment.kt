@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.viewModels
@@ -25,6 +26,7 @@ class MovieDetailsFragment : Fragment() {
     private val movie: Movie by lazy { safeArgs.movie }
     private val viewModel: MovieDetailsViewModel by viewModels()
     private lateinit var imageViewFavorite: ImageView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,14 +52,13 @@ class MovieDetailsFragment : Fragment() {
 
                 }
                 is DataState.Error -> {
-                    if (dataState != null) {
+
                         showProgressBar(false)
 
                         if (dataState.exception?.message?.contains(Constants.AUTH_FAILED)==true) {
                             switchAuthFragment()
                         }
                         displayError(dataState.exception?.message)
-                    }
                 }
                 is DataState.Loading -> {
 
@@ -75,11 +76,7 @@ class MovieDetailsFragment : Fragment() {
         else imageViewFavorite.setImageResource(R.drawable.ic_favorite_false_foreground)
     }
 
-    private fun displayError(message: String?) {
-        if (message != null)
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 
-    }
 
 
     private fun switchAuthFragment() {
@@ -87,21 +84,29 @@ class MovieDetailsFragment : Fragment() {
         findNavController().navigate(R.id.action_MovieDetails_to_WebViewFragment)
     }
 
-    private fun showProgressBar(b: Boolean) {
+    private fun showProgressBar(isVisible: Boolean) {
+        progressBar.visibility = if (isVisible) View.VISIBLE else View.GONE
+    }
 
+    private fun displayError(message: String?) {
+        if (message != null)
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setupUI(view: View) {
+        progressBar = view.findViewById(R.id.progressBar)
+
         view.findViewById<TextView>(R.id.text_view_movie_name).text = movie.original_title
         view.findViewById<TextView>(R.id.text_view_movie_description).text = movie.overview
 
-        val pictureUrl = Constants.BASE_URL_IMAGE_ORIGINAL + movie.backdrop_path
-        Glide.with(view.context).load(pictureUrl)
-            .into(view.findViewById<ImageView>(R.id.image_view_background));
+        val imageUrl = Constants.BASE_URL_IMAGE_ORIGINAL + movie.backdrop_path
+        Glide.with(view.context).load(imageUrl)
+            .into(view.findViewById(R.id.image_view_background));
+
         imageViewFavorite = view.findViewById(R.id.image_view_favorite)
-        imageViewFavorite.setOnClickListener(View.OnClickListener { view ->
+        imageViewFavorite.setOnClickListener { view ->
             changeFavorite()
-        })
+        }
 
     }
 

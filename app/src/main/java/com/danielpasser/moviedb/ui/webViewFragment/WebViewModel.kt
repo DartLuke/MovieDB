@@ -12,6 +12,7 @@ import com.danielpasser.moviedb.utils.Constants
 import com.danielpasser.moviedb.utils.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,7 +26,7 @@ class WebViewModel @Inject constructor(private val retrofit: Api) : ViewModel() 
 
 
     fun getToken() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.async (Dispatchers.IO) {
             try {
                 _dataStateToken.postValue(DataState.Loading)
                 val token = retrofit.getToken(Constants.API_KEY)
@@ -38,7 +39,7 @@ class WebViewModel @Inject constructor(private val retrofit: Api) : ViewModel() 
     }
 
     fun getSession(request_token: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.async(Dispatchers.IO) {
             try {
                 _dataStateSession.postValue(DataState.Loading)
                 val session = retrofit.getSession(Constants.API_KEY, request_token)
