@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/MovieListFragment">
+
+    <fragment
+        android:id="@+id/MovieListFragment"
+        android:name="com.danielpasser.moviedb.ui.movieListFragment.MovieListFragment"
+        tools:layout="@layout/fragment_movie_list">
+
+        <action
+            android:id="@+id/action_MovieListFragment_to_MovieDetails"
+            app:destination="@id/MovieDetails" />
+        <action
+            android:id="@+id/action_MovieListFragment_to_WebViewFragment"
+            app:destination="@id/WebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/MovieDetails"
+        android:name="com.danielpasser.moviedb.ui.MovieDetailsFragment.MovieDetailsFragment"
+        tools:layout="@layout/fragment_movie_details">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/MovieListFragment" />
+        <argument
+            android:name="movie"
+            app:argType="com.danielpasser.moviedb.model.Movie" />
+        <action
+            android:id="@+id/action_MovieDetails_to_WebViewFragment"
+            app:destination="@id/WebViewFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/WebViewFragment"
+        android:name="com.danielpasser.moviedb.ui.webViewFragment.WebViewFragment"
+        tools:layout="@layout/fragment_web_view"
+        ></fragment>
+
+</navigation>
