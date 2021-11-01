@@ -45,7 +45,6 @@ class MovieDetailsViewModel @Inject constructor(private val retrofit: Api)
                 _dataStateIsFavorite.postValue(DataState.Success(isFavorite))
             } catch (e: Exception) {
                 _dataStateIsFavorite.postValue(DataState.Error(e))
-                throw e
             }
         }
     }
@@ -77,7 +76,6 @@ class MovieDetailsViewModel @Inject constructor(private val retrofit: Api)
             } catch (e: Exception) {
                 Log.e(TAG, e.message.toString())
                 _dataStateIsFavorite.postValue(DataState.Error(e))
-                throw e
             }
         }
     }

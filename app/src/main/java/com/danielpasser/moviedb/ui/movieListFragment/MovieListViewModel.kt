@@ -63,7 +63,6 @@ class MovieListViewModel @Inject constructor(private val retrofit: Api)
             } catch (e: Exception) {
                 Log.e(TAG, e.message.toString())
                 _dataState.postValue(DataState.Error(e))
-                throw e
             }
         }
     }
@@ -82,7 +81,6 @@ class MovieListViewModel @Inject constructor(private val retrofit: Api)
             } catch (e: Exception) {
                 Log.e(TAG, e.message.toString())
                 _dataState.postValue(DataState.Error(e))
-                throw e
             }
         }
     }
